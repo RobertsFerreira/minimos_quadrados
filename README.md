@@ -1,0 +1,2 @@
+# minimos_quadrados
+ 

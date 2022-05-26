@@ -84,7 +84,7 @@ def main():
     sistema = minimosQuadradosV1(grau, numPonts, x, y)
 
     for i in range(len(sistema)):
-        print(f"ALPHA{i+1} = {sistema[i]}")
+        print(f"ALPHA{i+1} = {round(sistema[i], 2)}")
 
     valorExtrapolar = float(input("Digite o valor para extrapolar: "))
 
@@ -93,6 +93,6 @@ def main():
     for expoente, coeficiente in enumerate(sistema):
         valorExtrapolado += coeficiente * pow(valorExtrapolar, expoente)
 
-    print(f"O valor extrapolado é: {valorExtrapolado}")
+    print(f"O valor extrapolado é: {round(valorExtrapolado, 2)}")
 
 main()

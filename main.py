@@ -1,5 +1,4 @@
 import numpy as np 
-
 # def minimosQuadradosV2(numPonts, x, y):
 #     h = getVetoresG(numPonts, x)
 
@@ -32,6 +31,10 @@ import numpy as np
 
 #     return sistema
 
+def pause():
+    input("Pressione enter para continuar...")
+    exit(0)
+
 def getVetoresG(grau, numPonts, x):
     g = []
     for i in range(grau+1):
@@ -58,8 +61,9 @@ def minimosQuadradosV1(grau, numPonts, x, y):
         a.append(aux)
         b.append(np.dot(h[i], y))
 
+    print("\n\n\n")
     print(a)
-    print('\n\n')
+    print("\n\n\n")
     print(b)
 
 
@@ -71,28 +75,66 @@ def minimosQuadradosV1(grau, numPonts, x, y):
 
 def main():
     numPonts = int(input("Digite o numero de entradas que haverá: "))
-    grau = int(input("Digite o grau do ajuste: "))
+    if numPonts <= 5:
+        grau = int(input("Digite o grau do ajuste (1 - Reta Linear | 2 - Parabola): "))
 
-    x = []
-    y = []
+        if grau < 1 or grau > 2:
+            print("Grau inválido\n\n\n")
+            main()
+        else:
+            x = []
+            y = []
 
-    for i in range(numPonts):
-        x.append(float(input(f"Digite o valor de x - ({i}): ")))
-        y.append(float(input(f"Digite o valor de y - ({i}): ")))
+            for i in range(numPonts):
+                x.append(float(input(f"Digite o valor de x - ({i}): ").replace(',', '.')))
+                y.append(float(input(f"Digite o valor de y - ({i}): ").replace(',', '.')))
 
 
-    sistema = minimosQuadradosV1(grau, numPonts, x, y)
+            sistema = minimosQuadradosV1(grau, numPonts, x, y)
 
-    for i in range(len(sistema)):
-        print(f"ALPHA{i+1} = {round(sistema[i], 2)}")
+            for i in range(len(sistema)):
+                print(f"ALPHA{i+1} = {round(sistema[i], 2)}")
 
-    valorExtrapolar = float(input("Digite o valor para extrapolar: "))
+            print("\n\n\n")
+                
+            _sistema = []
+            
+            for i in range(len(sistema)):
+                _sistema.append(sistema[i])
+            
+            _sistema.reverse()
 
-    valorExtrapolado = 0
+            formula = "Y = "
 
-    for expoente, coeficiente in enumerate(sistema):
-        valorExtrapolado += coeficiente * pow(valorExtrapolar, expoente)
+            for expoente, valor in enumerate(_sistema):
+                formula += f"{round(valor, 2)}"
+                if expoente != len(_sistema) - 1:
+                    formula += f"x elevado a {(len(_sistema) - 1) - expoente}"
+                if expoente != len(_sistema)-1:
+                    formula += " + "
 
-    print(f"O valor extrapolado é: {round(valorExtrapolado, 2)}")
+            print(f"Formula: {formula}")
+
+            print("\n\n\n")
+
+            valorDigitado = input("Digite o valor para extrapolar: ")
+
+            valorExtrapolar = float(0 if valorDigitado == '' else valorDigitado.replace(',', '.'))
+
+            valorExtrapolado = 0
+
+            for expoente, coeficiente in enumerate(sistema):
+                valorExtrapolado += coeficiente * pow(valorExtrapolar, expoente)
+
+            print("\n\n\n")
+            
+            print(f"O valor extrapolado é: {round(valorExtrapolado, 2)}")
+
+            print("\n\n\n")
+    else:
+        print("O numero de pontos deve ser menor que 5\n\n\n")
+        main()
+
+    pause()
 
 main()

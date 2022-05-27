@@ -44,32 +44,50 @@ def getVetoresG(grau, numPonts, x):
             # o grau do meu polinomio
             aux.append(pow(x[j], i))
         g.append(aux)
-    print(g)
+    
+    print("\n")
+
+    for i in range(len(g)):
+        print(f'G{i+1}: {g[i]}')
+
     return g 
 
 def minimosQuadradosV1(grau, numPonts, x, y):
     h = getVetoresG(grau, numPonts, x)
 
-    a = []
+    matrizCoeficientes = []
 
-    b = []
+    termosIndependente = []
 
     for i in range(grau+1):
         aux = []
         for j in range(grau+1):
             aux.append(np.dot(h[i], h[j]))
-        a.append(aux)
-        b.append(np.dot(h[i], y))
-
-    print("\n\n\n")
-    print(a)
-    print("\n\n\n")
-    print(b)
-
+        matrizCoeficientes.append(aux)
+        termosIndependente.append(np.dot(h[i], y))
 
     # funcao para resolver sistema linear
-    sistema = np.linalg.solve(a, b)
+    sistema = np.linalg.solve(matrizCoeficientes, termosIndependente)
+    
+    print("\n")
 
+    _sistema = []
+
+    print("SISTEMA:")
+
+    for i in range(len(matrizCoeficientes)):
+        _sistema.append(matrizCoeficientes[i])
+    
+    for i in range(len(_sistema)):
+        _sistema[i].append(termosIndependente[i])
+
+    for l in range(len(_sistema)):
+        for c in range(len(_sistema[l])):
+            print(f'[{_sistema[l][c]}]', end='')
+        print()
+
+    print()
+    
     return sistema
 
 
@@ -94,14 +112,14 @@ def main():
 
             for i in range(len(sistema)):
                 print(f"ALPHA{i+1} = {round(sistema[i], 2)}")
-
-            print("\n\n\n")
-                
+            
             _sistema = []
             
             for i in range(len(sistema)):
                 _sistema.append(sistema[i])
             
+            print("\n")
+
             _sistema.reverse()
 
             formula = "Y = "
@@ -115,7 +133,7 @@ def main():
 
             print(f"Formula: {formula}")
 
-            print("\n\n\n")
+            print("\n")
 
             valorDigitado = input("Digite o valor para extrapolar: ")
 
@@ -126,11 +144,11 @@ def main():
             for expoente, coeficiente in enumerate(sistema):
                 valorExtrapolado += coeficiente * pow(valorExtrapolar, expoente)
 
-            print("\n\n\n")
+            print("\n")
             
             print(f"O valor extrapolado é: {round(valorExtrapolado, 2)}")
 
-            print("\n\n\n")
+            print("\n")
     else:
         print("O numero de pontos deve ser menor que 5\n\n\n")
         main()
